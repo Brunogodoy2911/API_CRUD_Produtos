@@ -19,32 +19,59 @@ Este projeto é uma API RESTful para gerenciamento de produtos (CRUD - Create, R
 
 ### Diagrama de Classes Simplificado
 
-+----------------+       +-------------------+       +--------------------+
-|     User       |<>-----|   UserRepository  |<>-----|    UserService     |
-+----------------+       +-------------------+       +--------------------+
-| - id: Long     |       | findByUsername()  |       | - registerUser()   |
-| - username:    |       +-------------------+       | - findByUsername() |
-|   String       |                                   +--------------------+
-| - password:    |                                             |
-|   String       |                                             |
-+----------------+                                             |
-v
-+----------------+                                 +------------------+
-|    Product     |<>-----|  ProductRepository  |<>-----| ProductService   |
-+----------------+       +-------------------+       +------------------+
-| - id: Long     |       | findAll()         |       | - findAll()      |
-| - name: String |       | findById()        |       | - findById()     |
-| - price: Double|       | save()            |       | - save()         |
-+----------------+       | existsById()      |       | - deleteById()   |
-| deleteById()      |       +------------------+
-+-------------------+                |
-v
-+----------------+
-|  ResourceNotFound  |
-+----------------+
-| - message: String  |
-+----------------+
+```mermaid
+classDiagram
+    class User {
+        - Long id
+        - String username
+        - String password
+    }
 
+    class Product {
+        - Long id
+        - String name
+        - Double price
+    }
+
+    class ResourceNotFound {
+        - String message
+    }
+
+    class UserRepository {
+        + findByUsername(String username)
+    }
+
+    class UserService {
+        + registerUser(User user)
+        + findByUsername(String username)
+    }
+
+    class ProductRepository {
+        + findAll()
+        + findById(Long id)
+        + save(Product product)
+        + existsById(Long id)
+        + deleteById(Long id)
+    }
+
+    class ProductService {
+        + findAll()
+        + findById(Long id)
+        + save(Product product)
+        + deleteById(Long id)
+    }
+
+    %% Relacionamentos
+    UserRepository --> User
+    UserService --> UserRepository
+
+    ProductRepository --> Product
+    ProductService --> ProductRepository
+
+    ResourceNotFound <.. ProductService
+    ResourceNotFound <.. UserService
+
+```
 
 ### Como Utilizar Localmente
 
@@ -77,4 +104,6 @@ v
 
 ### Contate-me
 
-* Adicione aqui suas informações de contato (ex: LinkedIn, email, GitHub).
+-   💼 LinkedIn: [Bruno Henrique de Godoy](https://www.linkedin.com/in/brunogodoydev/)
+-   💻 GitHub: [brunogodoy2911](https://github.com/Brunogodoy2911)
+-   🌐 Portfólio: [Acesse meu portfólio](https://brunogodoydev.vercel.app/)
